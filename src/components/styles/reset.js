@@ -12,19 +12,12 @@ export default createGlobalStyle`
 	box-sizing: border-box;
 }
 
-a, a:link, a:visited  {
-    text-decoration: none;
-}
 
-a:hover  {
-    text-decoration: none;
-}
-
-aside, nav, footer, header, section, main {
+footer, section, main {
 	display: block;
 }
 
-h1, h2, h3, h4, h5, h6, p {
+h1, p {
     font-size: inherit;
 	font-weight: inherit;
 }
@@ -33,20 +26,7 @@ ul, ul li {
 	list-style: none;
 }
 
-img {
-	vertical-align: top;
-}
-
-img, svg {
-	max-width: 100%;
-	height: auto;
-}
-
-address {
-  font-style: normal;
-}
-
-input, textarea, button, select {
+input, button, select {
 	font-family: inherit;
     font-size: inherit;
     color: inherit;
@@ -79,9 +59,6 @@ label {
 	cursor: pointer;
 }
 
-legend {
-	display: block;
-}
 * body{
   font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }

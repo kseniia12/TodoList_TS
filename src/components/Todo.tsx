@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { TodoList } from "./styles/style";
 import { useAppDispatch } from "../hooks";
 import { completeTodo, deleteTodo, editTodo } from "./store/todoSlice";
+import cn from "classnames";
 
 interface ComponentProps {
   id: string;
@@ -10,14 +11,9 @@ interface ComponentProps {
 }
 
 const Todo: React.FC<ComponentProps> = ({ id, todo, completedTask }) => {
-  const [mouseOver, setMouseOver] = useState("no-activ-cross");
+  const [mouseOver, setMouseOver] = useState(false);
   const [styleTodosList, setStyleTodosList] = useState(false);
   const [valueInputField, setValueInputField] = useState(todo);
-  const [strikethroughText, setStrikethroughText] = useState(
-    "not-strikethrough-text"
-  );
-  const [styleCompletedTask, setStyleCompletedTask] =
-    useState("unfulfilled-task");
   const [isInputFocused, setIsInputFocused] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -29,20 +25,10 @@ const Todo: React.FC<ComponentProps> = ({ id, todo, completedTask }) => {
     dispatch(deleteTodo(id));
   };
 
-  const checkCompletedTask = (completedTask: boolean) => {
-    if (completedTask === true) {
-      setStrikethroughText("strikethrough-text");
-      setStyleCompletedTask("completed-task");
-    } else {
-      setStrikethroughText("not-strikethrough-text");
-      setStyleCompletedTask("unfulfilled-task");
-    }
-  };
-
   const handleDoubleClick = (
     e: React.MouseEvent<Element, MouseEvent>
   ): void => {
-    setMouseOver("no-activ-cross");
+    setMouseOver(false);
     setIsInputFocused(true);
     e.preventDefault();
     setStyleTodosList(true);
@@ -50,7 +36,7 @@ const Todo: React.FC<ComponentProps> = ({ id, todo, completedTask }) => {
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      setMouseOver("activ-cross");
+      setMouseOver(true);
       e.preventDefault();
       dispatch(editTodo({ id, valueInputField }));
       setIsInputFocused(false);
@@ -58,21 +44,24 @@ const Todo: React.FC<ComponentProps> = ({ id, todo, completedTask }) => {
     }
   };
 
-  useEffect(() => {
-    checkCompletedTask(completedTask);
-  }, [completedTask]);
-
   return (
     <TodoList
-      className="f"
       key={id}
-      onMouseEnter={() => setMouseOver("activ-cross")}
-      onMouseLeave={() => setMouseOver("no-activ-cross")}
+      onMouseEnter={() => setMouseOver(true)}
+      onMouseLeave={() => setMouseOver(false)}
       onDoubleClick={handleDoubleClick}
     >
-      <div className={strikethroughText}>
+      <div
+        className={cn({
+          "strikethrough-text": completedTask,
+          "not-strikethrough-text": !completedTask,
+        })}
+      >
         <div
-          className={styleCompletedTask}
+          className={cn({
+            "completed-task": completedTask,
+            "unfulfilled-task": !completedTask,
+          })}
           onClick={() => completeTask(id)}
         ></div>
         {styleTodosList === true ? (
@@ -82,18 +71,24 @@ const Todo: React.FC<ComponentProps> = ({ id, todo, completedTask }) => {
             value={valueInputField}
             onChange={(e) => setValueInputField(e.target.value)}
             onKeyDown={handleKeyPress}
-            onMouseEnter={() => setMouseOver("no-activ-cross")}
+            onMouseEnter={() => setMouseOver(false)}
             className={`${
               isInputFocused ? "activ-form-input" : "no-activ-form-input"
             }`}
           />
         ) : (
-          <div className="zz">
+          <div className="activ-todo">
             <div key={id}>{todo}</div>
           </div>
         )}
       </div>
-      <div className={mouseOver} onClick={() => deleteTask(id)}>
+      <div
+        className={cn({
+          "no-activ-cross": !mouseOver,
+          "activ-cross": mouseOver,
+        })}
+        onClick={() => deleteTask(id)}
+      >
         x
       </div>
     </TodoList>

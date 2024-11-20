@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { changeFilter } from "./store/filterSlice";
+import cn from "classnames";
 
 interface IProps {
   isAcctive: boolean;
@@ -9,9 +10,10 @@ interface IProps {
 
 const Button: React.FC<IProps> = ({ isAcctive, filter }) => {
   const dispatch = useDispatch();
+
   return (
     <button
-      className={isAcctive ? "button-activ" : undefined}
+      className={cn({ "button-filter-activ": isAcctive })}
       onClick={() => {
         dispatch(changeFilter(filter));
       }}

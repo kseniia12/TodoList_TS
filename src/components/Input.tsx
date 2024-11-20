@@ -1,12 +1,11 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { addTodo, ITodo, markAllTasksCompleted } from "./store/todoSlice";
+import { useState } from "react";
+import { addTodo, markAllTasksCompleted } from "./store/todoSlice";
 import { useAppSelector, useAppDispatch } from "../hooks";
-
+import cn from "classnames";
 const Input = () => {
   const [todo, setTodo] = useState<string>("");
   const todos = useAppSelector((state) => state.todos.todos);
-  const [classNameIcon, setClassNameIcon] = useState<string>("no-activ-icon ");
   const dispatch = useAppDispatch();
   const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
 
@@ -22,14 +21,6 @@ const Input = () => {
     dispatch(markAllTasksCompleted());
   };
 
-  const checkTodos = (todos: ITodo[]) => {
-    if (todos.length > 0) {
-      setClassNameIcon("activ-icon");
-    } else {
-      setClassNameIcon("no-activ-icon ");
-    }
-  };
-
   const handleInputFocus = () => {
     setIsInputFocused(true);
   };
@@ -38,16 +29,20 @@ const Input = () => {
     setIsInputFocused(false);
   };
 
-  useEffect(() => {
-    checkTodos(todos);
-  }, [todos]);
-
   return (
     <>
       <h1 className="title">todos</h1>
-      <div className={`section-input ${isInputFocused ? "activ" : "no-activ"}`}>
+      <div
+        className={cn({
+          "section-input-activ": isInputFocused,
+          "section-input-noactiv": !isInputFocused,
+        })}
+      >
         <div
-          className={classNameIcon}
+          className={cn({
+            "activ-icon": todos.length,
+            "no-activ-icon": !todos.length,
+          })}
           onClick={() => markAllAsCompleted()}
         ></div>
         <form onSubmit={addTask}>

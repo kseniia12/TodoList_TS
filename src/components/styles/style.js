@@ -9,13 +9,13 @@ export const StyleForAllProject = styled.div`
     color: #b83f45;
     font-weight: 200;
   }
-  .section-input.no-activ {
+  .section-input-noactiv {
     border: 1px solid (255, 0, 0, 0.1);
     display: flex;
     align-items: center;
     padding-left: 20px;
   }
-  .section-input.activ {
+  .section-input-activ {
     border: 1px solid red;
     display: flex;
     align-items: center;
@@ -60,19 +60,19 @@ export const StylesforFooter = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  .edit-button {
+  .buttons-filter {
     display: flex;
     gap: 20px;
   }
-  .button-activ {
+  .button-filter-activ {
     border: 1px solid red;
     padding: 5px;
   }
-  .button-not-active {
+  .button-clear-active {
     border: none;
     padding: 5px;
   }
-  .button-clear-task {
+  .button-clear-hidden {
     border: none;
     padding: 5px;
     visibility: hidden;
@@ -119,7 +119,7 @@ export const TodoList = styled.div`
       center no-repeat;
     background-size: 20px;
   }
-  .zz {
+  .activ-todo {
     display: flex;
     align-items: center;
     width: 100%;

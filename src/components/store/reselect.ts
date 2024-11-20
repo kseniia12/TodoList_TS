@@ -18,7 +18,7 @@ const selectTodosByFilter = createSelector(
     if (activeFilter === "Active") {
       return allTodos.filter((todo) => !todo.completed);
     }
-
+    return []
   }
 );
 
