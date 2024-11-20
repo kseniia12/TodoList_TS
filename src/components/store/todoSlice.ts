@@ -2,17 +2,17 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import uuid from 'react-uuid';
 
 
-interface todo {
+export interface ITodo {
     id: string;
     text: string
     completed: boolean
 }
 
 export interface StateTodos {
-    todos: todo[];
+    todos: ITodo[];
 }
 
-interface editTodoType {
+interface IEditTodo {
     id: string;
     valueInputField: string;
 }
@@ -43,7 +43,7 @@ const todoSlice = createSlice({
     },
     deleteTodo(state, action) {
       const id = action.payload;
-      state.todos = state.todos.filter((todo) => todo.id != id);
+      state.todos = state.todos.filter((todo) => todo.id !== id);
     },
     markAllTasksCompleted(state) {
       const allCompleted = state.todos.every((todo) => todo.completed);
@@ -54,7 +54,7 @@ const todoSlice = createSlice({
     deleteAllCompletedTask(state) {
       state.todos = state.todos.filter((todo) => todo.completed === false);
     },
-    editTodo(state, action:PayloadAction<editTodoType>) {
+    editTodo(state, action:PayloadAction<IEditTodo>) {
       const id = action.payload.id;
       const index = state.todos.findIndex((todo) => todo.id === id);
       if (index === -1) {

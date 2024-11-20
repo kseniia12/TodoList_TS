@@ -1,7 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { StateTodos } from "./todoSlice";
-import { IInitialState } from "./filterSlice";
-import { RootState } from ".";
+import { RootState } from "./index";
 
 export const SelectAllTodos = (state: RootState) => state.todos.todos;
 export const SelectActiveFilter = (state: RootState) => state.filters.filter;

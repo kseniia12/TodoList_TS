@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { TodoList } from "./styles/style";
-import { useAppSelector, useAppDispatch } from '../hooks';
-import selectTodosByFilter from "./store/reselect";
+import { useAppDispatch } from '../hooks';
+
 import { completeTodo, deleteTodo, editTodo } from "./store/todoSlice";
 
 
@@ -22,15 +22,15 @@ interface ComponentProps {
     useState("unfulfilled-task");
 
   const dispatch = useAppDispatch();
-  const todos = useAppSelector(selectTodosByFilter);
   const completeTask = (id: string) => {
     dispatch(completeTodo(id));
   };
+ 
   const [isInputFocused, setIsInputFocused] = useState(false);
   const deleteTask = (id: string) => {
     dispatch(deleteTodo(id));
   };
-  function checkCompletedTask() {
+  function checkCompletedTask(completedTask : boolean) {
     if (completedTask === true) {
       setStrikethroughText("strikethrough-text");
       setStyleCompletedTask("completed-task");
@@ -40,10 +40,10 @@ interface ComponentProps {
     }
   }
   useEffect(() => {
-    checkCompletedTask();
-  }, [todos]);
+    checkCompletedTask(completedTask);
+  }, [completedTask]);
 
-  const handleDoubleClick = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleDoubleClick = (e: React.MouseEvent<Element, MouseEvent>) : void => {
     setMouseOver("no-activ-cross");
     setIsInputFocused(true);
     e.preventDefault();
@@ -66,7 +66,7 @@ interface ComponentProps {
       key={id}
       onMouseEnter={() => setMouseOver("activ-cross")}
       onMouseLeave={() => setMouseOver("no-activ-cross")}
-      onDoubleClick={(e: React.KeyboardEvent<HTMLInputElement>) => handleDoubleClick(e)}
+      onDoubleClick={handleDoubleClick}
     >
       <div className={strikethroughText}>
         <div
@@ -79,7 +79,7 @@ interface ComponentProps {
             type="text"
             value={valueInputField}
             onChange={(e) => setValueInputField(e.target.value)}
-            onKeyDown={(e) => handleKeyPress(e)}
+            onKeyDown={handleKeyPress}
             onMouseEnter={() => setMouseOver("no-activ-cross")}
             className={`${
               isInputFocused ? "activ-form-input" : "no-activ-form-input"
@@ -92,7 +92,7 @@ interface ComponentProps {
         )}
       </div>
       <div className={mouseOver} onClick={() => deleteTask(id)}>
-        X
+        x
       </div>
     </TodoList>
   );

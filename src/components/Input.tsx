@@ -1,14 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from "react";
-import { addTodo, markAllTasksCompleted } from "./store/todoSlice";
+import { addTodo, ITodo, markAllTasksCompleted } from "./store/todoSlice";
 import { useAppSelector, useAppDispatch } from '../hooks';
 
 const Input = () => {
-  const [todo, setTodo] = useState("");
+  const [todo, setTodo] = useState<string>("");
   const todos = useAppSelector((state) => state.todos.todos);
-  const [classNameIcon, setClassNameIcon] = useState("no-activ-icon ");
+  const [classNameIcon, setClassNameIcon] = useState<string>("no-activ-icon ");
   const dispatch = useAppDispatch();
-  const [isInputFocused, setIsInputFocused] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
   const addTask = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (todo.trim().length) {
@@ -18,14 +18,14 @@ const Input = () => {
   };
 
   useEffect(() => {
-    checkTodos();
+    checkTodos(todos);
   }, [todos]);
 
   function markAllAsCompleted() {
     dispatch(markAllTasksCompleted());
   }
 
-  function checkTodos() {
+  function checkTodos(todos : ITodo[]) {
     if (todos.length > 0) {
       setClassNameIcon("activ-icon");
     } else {
