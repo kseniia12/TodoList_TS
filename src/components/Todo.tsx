@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { TodoList } from "./styles/style";
-import { useAppDispatch } from '../hooks';
-
+import { useAppDispatch } from "../hooks";
 import { completeTodo, deleteTodo, editTodo } from "./store/todoSlice";
-
 
 interface ComponentProps {
   id: string;
   todo: string;
-  completedTask: boolean; 
+  completedTask: boolean;
 }
 
- const Todo: React.FC<ComponentProps> = ({ id, todo, completedTask })=>{
+const Todo: React.FC<ComponentProps> = ({ id, todo, completedTask }) => {
   const [mouseOver, setMouseOver] = useState("no-activ-cross");
   const [styleTodosList, setStyleTodosList] = useState(false);
   const [valueInputField, setValueInputField] = useState(todo);
@@ -20,17 +18,18 @@ interface ComponentProps {
   );
   const [styleCompletedTask, setStyleCompletedTask] =
     useState("unfulfilled-task");
-
+  const [isInputFocused, setIsInputFocused] = useState(false);
   const dispatch = useAppDispatch();
+
   const completeTask = (id: string) => {
     dispatch(completeTodo(id));
   };
- 
-  const [isInputFocused, setIsInputFocused] = useState(false);
+
   const deleteTask = (id: string) => {
     dispatch(deleteTodo(id));
   };
-  function checkCompletedTask(completedTask : boolean) {
+
+  const checkCompletedTask = (completedTask: boolean) => {
     if (completedTask === true) {
       setStrikethroughText("strikethrough-text");
       setStyleCompletedTask("completed-task");
@@ -38,12 +37,11 @@ interface ComponentProps {
       setStrikethroughText("not-strikethrough-text");
       setStyleCompletedTask("unfulfilled-task");
     }
-  }
-  useEffect(() => {
-    checkCompletedTask(completedTask);
-  }, [completedTask]);
+  };
 
-  const handleDoubleClick = (e: React.MouseEvent<Element, MouseEvent>) : void => {
+  const handleDoubleClick = (
+    e: React.MouseEvent<Element, MouseEvent>
+  ): void => {
     setMouseOver("no-activ-cross");
     setIsInputFocused(true);
     e.preventDefault();
@@ -59,6 +57,10 @@ interface ComponentProps {
       setStyleTodosList(false);
     }
   };
+
+  useEffect(() => {
+    checkCompletedTask(completedTask);
+  }, [completedTask]);
 
   return (
     <TodoList
@@ -96,5 +98,5 @@ interface ComponentProps {
       </div>
     </TodoList>
   );
-}
-export default Todo
+};
+export default Todo;

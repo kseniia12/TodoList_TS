@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useAppSelector, useAppDispatch } from '../hooks';
+import { useAppSelector, useAppDispatch } from "../hooks";
 import { StylesforFooter } from "./styles/style";
 import Button from "./Button";
 import { deleteAllCompletedTask, ITodo } from "./store/todoSlice";
-export default function Footer() {
+
+const Footer = () => {
   const todos = useAppSelector((state) => state.todos.todos);
   const filter = useAppSelector((state) => state.filters.filter);
-  const dispatch = useAppDispatch();
+
   const [classButton, setclassButton] = useState("button-clear-task");
   const [countCompletedTasks, setCountCompletedTasks] = useState(0);
-
-  function countTodos(todos: ITodo[]) {
+  const dispatch = useAppDispatch();
+  const countTodos = (todos: ITodo[]) => {
     let countNoCompletedTask = todos.filter((todo) => todo.completed === false);
     setCountCompletedTasks(countNoCompletedTask.length);
     countNoCompletedTask.length !== todos.length
@@ -25,21 +26,9 @@ export default function Footer() {
     <StylesforFooter>
       <div> {countCompletedTasks} item left</div>
       <div className="edit-button">
-        <Button
-
-          isAcctive={filter === "All"}
-          filter={"All"}
-        />
-        <Button
-   
-          isAcctive={filter === "Completed"}
-          filter={"Completed"}
-        />
-        <Button
-
-          isAcctive={filter === "Active"}
-          filter={"Active"}
-        />
+        <Button isAcctive={filter === "All"} filter={"All"} />
+        <Button isAcctive={filter === "Completed"} filter={"Completed"} />
+        <Button isAcctive={filter === "Active"} filter={"Active"} />
       </div>
       <button
         className={classButton}
@@ -49,4 +38,5 @@ export default function Footer() {
       </button>
     </StylesforFooter>
   );
-}
+};
+export default Footer;

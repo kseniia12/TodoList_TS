@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 import { useState, useEffect } from "react";
 import { addTodo, ITodo, markAllTasksCompleted } from "./store/todoSlice";
-import { useAppSelector, useAppDispatch } from '../hooks';
+import { useAppSelector, useAppDispatch } from "../hooks";
 
 const Input = () => {
   const [todo, setTodo] = useState<string>("");
@@ -9,6 +9,7 @@ const Input = () => {
   const [classNameIcon, setClassNameIcon] = useState<string>("no-activ-icon ");
   const dispatch = useAppDispatch();
   const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
+
   const addTask = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (todo.trim().length) {
@@ -17,21 +18,18 @@ const Input = () => {
     setTodo("");
   };
 
-  useEffect(() => {
-    checkTodos(todos);
-  }, [todos]);
-
-  function markAllAsCompleted() {
+  const markAllAsCompleted = () => {
     dispatch(markAllTasksCompleted());
-  }
+  };
 
-  function checkTodos(todos : ITodo[]) {
+  const checkTodos = (todos: ITodo[]) => {
     if (todos.length > 0) {
       setClassNameIcon("activ-icon");
     } else {
       setClassNameIcon("no-activ-icon ");
     }
-  }
+  };
+
   const handleInputFocus = () => {
     setIsInputFocused(true);
   };
@@ -39,27 +37,32 @@ const Input = () => {
   const handleInputBlur = () => {
     setIsInputFocused(false);
   };
+
+  useEffect(() => {
+    checkTodos(todos);
+  }, [todos]);
+
   return (
     <>
-    <h1 className="title">todos</h1>
-    <div className={`section-input ${isInputFocused ? "activ" : "no-activ"}`}>
-      <div
-        className={classNameIcon}
-        onClick={() => markAllAsCompleted()}
-      ></div>
-      <form onSubmit={addTask}>
-        <input
-          className="input"
-          type="text"
-          placeholder="What needs to be done?"
-          value={todo}
-          onChange={(e) => setTodo(e.target.value)}
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
-        />
-      </form>
-    </div>
-  </>
-  )
-}
-export default Input
+      <h1 className="title">todos</h1>
+      <div className={`section-input ${isInputFocused ? "activ" : "no-activ"}`}>
+        <div
+          className={classNameIcon}
+          onClick={() => markAllAsCompleted()}
+        ></div>
+        <form onSubmit={addTask}>
+          <input
+            className="input"
+            type="text"
+            placeholder="What needs to be done?"
+            value={todo}
+            onChange={(e) => setTodo(e.target.value)}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+          />
+        </form>
+      </div>
+    </>
+  );
+};
+export default Input;

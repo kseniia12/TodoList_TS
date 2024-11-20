@@ -7,12 +7,11 @@ const initialState: IInitialState = {
   filter: "All",
 }
 
-
 const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
-    changeFilter(state, action:PayloadAction<string>) {
+    changeFilter(state, action: PayloadAction<string>) {
       state.filter = action.payload;
     },
   },
