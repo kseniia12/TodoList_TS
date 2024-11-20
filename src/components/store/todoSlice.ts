@@ -8,8 +8,8 @@ interface todo {
     completed: boolean
 }
 
-interface StateTodos {
-    todos: todo[]
+export interface StateTodos {
+    todos: todo[];
 }
 
 interface editTodoType {
