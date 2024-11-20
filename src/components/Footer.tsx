@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useAppSelector, useAppDispatch } from '../hooks';
 import { StylesforFooter } from "./styles/style";
-import { useDispatch } from "react-redux";
 import Button from "./Button";
 import { deleteAllCompletedTask } from "./store/todoSlice";
 export default function Footer() {
-  const todos = useSelector((state) => state.todos.todos);
-  const filter = useSelector((state) => state.filters.filter);
-  const dispatch = useDispatch();
+  const todos = useAppSelector((state) => state.todos.todos);
+  const filter = useAppSelector((state) => state.filters.filter);
+  const dispatch = useAppDispatch();
   const [classButtonAll] = useState("button-not-active");
   const [classButton, setclassButton] = useState("button-clear-task");
   const [countCompletedTasks, setCountCompletedTasks] = useState(0);

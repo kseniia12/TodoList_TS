@@ -1,15 +1,15 @@
 import React from 'react'
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import { addTodo, markAllTasksCompleted } from "./store/todoSlice";
+import { useAppSelector, useAppDispatch } from '../hooks';
+
 const Input = () => {
-    const [todo, setTodo] = useState("");
-  const todos = useSelector((state) => state.todos.todos);
+  const [todo, setTodo] = useState("");
+  const todos = useAppSelector((state) => state.todos.todos);
   const [classNameIcon, setClassNameIcon] = useState("no-activ-icon ");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isInputFocused, setIsInputFocused] = useState(false);
-  const addTask = (e) => {
+  const addTask = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (todo.trim().length) {
       dispatch(addTodo(todo));

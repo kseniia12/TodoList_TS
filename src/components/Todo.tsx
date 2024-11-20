@@ -1,10 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { TodoList } from "./styles/style";
-import { useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from '../hooks';
 import selectTodosByFilter from "./store/reselect";
 import { completeTodo, deleteTodo, editTodo } from "./store/todoSlice";
-import { useSelector } from "react-redux";
-export default function Todo({ id, todo, completedTask }) {
+
+
+interface ComponentProps {
+  id: string;
+  todo: string;
+  completedTask: boolean; 
+}
+
+ const Todo: React.FC<ComponentProps> = ({ id, todo, completedTask })=>{
   const [mouseOver, setMouseOver] = useState("no-activ-cross");
   const [styleTodosList, setStyleTodosList] = useState(false);
   const [valueInputField, setValueInputField] = useState(todo);
@@ -13,14 +20,14 @@ export default function Todo({ id, todo, completedTask }) {
   );
   const [styleCompletedTask, setStyleCompletedTask] =
     useState("unfulfilled-task");
-  const inputRef = useRef(null);
-  const dispatch = useDispatch();
-  const todos = useSelector(selectTodosByFilter);
-  const completeTask = (id) => {
+
+  const dispatch = useAppDispatch();
+  const todos = useAppSelector(selectTodosByFilter);
+  const completeTask = (id: string) => {
     dispatch(completeTodo(id));
   };
   const [isInputFocused, setIsInputFocused] = useState(false);
-  const deleteTask = (id) => {
+  const deleteTask = (id: string) => {
     dispatch(deleteTodo(id));
   };
   function checkCompletedTask() {
@@ -36,14 +43,14 @@ export default function Todo({ id, todo, completedTask }) {
     checkCompletedTask();
   }, [todos]);
 
-  const handleDoubleClick = (e) => {
+  const handleDoubleClick = (e: React.KeyboardEvent<HTMLInputElement>) => {
     setMouseOver("no-activ-cross");
     setIsInputFocused(true);
     e.preventDefault();
     setStyleTodosList(true);
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       setMouseOver("activ-cross");
       e.preventDefault();
@@ -59,7 +66,7 @@ export default function Todo({ id, todo, completedTask }) {
       key={id}
       onMouseEnter={() => setMouseOver("activ-cross")}
       onMouseLeave={() => setMouseOver("no-activ-cross")}
-      onDoubleClick={(e) => handleDoubleClick(e)}
+      onDoubleClick={(e: React.KeyboardEvent<HTMLInputElement>) => handleDoubleClick(e)}
     >
       <div className={strikethroughText}>
         <div
@@ -72,7 +79,7 @@ export default function Todo({ id, todo, completedTask }) {
             type="text"
             value={valueInputField}
             onChange={(e) => setValueInputField(e.target.value)}
-            onKeyDown={handleKeyPress}
+            onKeyDown={(e) => handleKeyPress(e)}
             onMouseEnter={() => setMouseOver("no-activ-cross")}
             className={`${
               isInputFocused ? "activ-form-input" : "no-activ-form-input"
@@ -90,3 +97,4 @@ export default function Todo({ id, todo, completedTask }) {
     </TodoList>
   );
 }
+export default Todo
